@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-green: #1C4726;
+  --color-brand-lime: #d7e288;
+  --color-brand-cream: #f1edde;
+  --color-brand-charcoal: #24201f;
+  --color-brand-black: #191919;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
