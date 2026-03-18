@@ -1,16 +1,16 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Building2, Plus, Pencil, Trash2, Globe, MapPin, Loader2, ChevronRight } from 'lucide-react'
 import { useCompanies } from '../hooks/useCompanies'
 import Modal from '../components/ui/Modal'
 import Button from '../components/ui/Button'
 import ConfirmDialog from '../components/ui/ConfirmDialog'
 import CompanyForm from '../components/companies/CompanyForm'
+import CompanyDrawer from '../components/companies/CompanyDrawer'
 
 export default function CompaniesPage() {
   const { companies, loading, addCompany, updateCompany, deleteCompany } = useCompanies()
-  const navigate = useNavigate()
   const [modalOpen, setModalOpen] = useState(false)
+  const [drawerId, setDrawerId] = useState(null)
   const [editing, setEditing] = useState(null)
   const [deleteTarget, setDeleteTarget] = useState(null)
   const [saving, setSaving] = useState(false)
@@ -99,7 +99,7 @@ export default function CompaniesPage() {
           {filtered.map(company => (
             <div
               key={company.id}
-              onClick={() => navigate(`/companies/${company.id}`)}
+              onClick={() => setDrawerId(company.id)}
               className="group cursor-pointer rounded-xl border border-white/5 bg-brand-charcoal p-4 transition-colors hover:border-white/10"
             >
               <div className="flex items-start justify-between gap-3">
@@ -174,6 +174,12 @@ export default function CompaniesPage() {
         onConfirm={handleDelete}
         title="Delete Company"
         message={`Are you sure you want to delete "${deleteTarget?.name}"? This action cannot be undone.`}
+      />
+
+      <CompanyDrawer
+        companyId={drawerId}
+        open={!!drawerId}
+        onClose={() => setDrawerId(null)}
       />
     </div>
   )

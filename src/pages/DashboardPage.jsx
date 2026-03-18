@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   DollarSign, Users, Briefcase, CheckSquare, Clock, Building2,
-  TrendingUp, Square, CheckSquare2, Loader2, ChevronRight
+  TrendingUp, Square, CheckSquare2, Loader2, ChevronRight,
+  Phone, Mail, MessageSquare, Plus
 } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 
@@ -116,11 +117,11 @@ export default function DashboardPage() {
     }))
   }
 
-  const touchpointTypeLabel = {
-    call: '📞 Call',
-    email: '✉️ Email',
-    meeting: '🤝 Meeting',
-    text: '💬 Text',
+  const touchpointTypeConfig = {
+    call:    { icon: Phone,          label: 'Call',    color: 'text-blue-400',    bg: 'bg-blue-500/15' },
+    email:   { icon: Mail,           label: 'Email',   color: 'text-emerald-400', bg: 'bg-emerald-500/15' },
+    meeting: { icon: Users,          label: 'Meeting', color: 'text-amber-400',   bg: 'bg-amber-500/15' },
+    text:    { icon: MessageSquare,  label: 'Text',    color: 'text-purple-400',  bg: 'bg-purple-500/15' },
   }
 
   if (loading) {
@@ -184,7 +185,16 @@ export default function DashboardPage() {
             </button>
           </div>
           {stats.tasksDueToday.length === 0 ? (
-            <p className="py-4 text-center text-sm text-brand-cream/30">No tasks due today 🎉</p>
+            <div className="flex flex-col items-center gap-3 py-6">
+              <CheckSquare className="h-8 w-8 text-brand-cream/15" />
+              <p className="text-sm text-brand-cream/30">You're all caught up — no tasks due today.</p>
+              <button
+                onClick={() => navigate('/tasks')}
+                className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg bg-brand-green/20 px-3 py-1.5 text-xs font-medium text-brand-lime hover:bg-brand-green/30"
+              >
+                <Plus className="h-3.5 w-3.5" /> Add Task
+              </button>
+            </div>
           ) : (
             <div className="flex flex-col gap-2">
               {stats.tasksDueToday.map(task => (
@@ -224,7 +234,16 @@ export default function DashboardPage() {
             </button>
           </div>
           {stats.recentTouchpoints.length === 0 ? (
-            <p className="py-4 text-center text-sm text-brand-cream/30">No touchpoints yet</p>
+            <div className="flex flex-col items-center gap-3 py-6">
+              <Clock className="h-8 w-8 text-brand-cream/15" />
+              <p className="text-sm text-brand-cream/30">No recent touchpoints. Log your first interaction.</p>
+              <button
+                onClick={() => navigate('/contacts')}
+                className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg bg-brand-green/20 px-3 py-1.5 text-xs font-medium text-brand-lime hover:bg-brand-green/30"
+              >
+                <Plus className="h-3.5 w-3.5" /> Log Touchpoint
+              </button>
+            </div>
           ) : (
             <div className="flex flex-col gap-2">
               {stats.recentTouchpoints.map(tp => (
@@ -234,7 +253,17 @@ export default function DashboardPage() {
                   className="flex cursor-pointer items-center justify-between rounded-lg bg-brand-black/50 px-3 py-2.5 hover:bg-brand-black/80"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-sm">{touchpointTypeLabel[tp.type] || tp.type}</span>
+                    {(() => {
+                      const cfg = touchpointTypeConfig[tp.type]
+                      if (!cfg) return <span className="text-sm text-brand-cream/50">{tp.type}</span>
+                      const Icon = cfg.icon
+                      return (
+                        <span className={`inline-flex items-center gap-1.5 rounded-full ${cfg.bg} px-2.5 py-0.5 text-xs font-medium ${cfg.color}`}>
+                          <Icon className="h-3.5 w-3.5" />
+                          {cfg.label}
+                        </span>
+                      )
+                    })()}
                     <span className="text-sm text-brand-cream">
                       {tp.contacts ? `${tp.contacts.first_name} ${tp.contacts.last_name}` : 'Unknown'}
                     </span>
@@ -262,7 +291,16 @@ export default function DashboardPage() {
           </button>
         </div>
         {stats.recentCompanies.length === 0 ? (
-          <p className="py-4 text-center text-sm text-brand-cream/30">No companies yet</p>
+          <div className="flex flex-col items-center gap-3 py-6">
+            <Building2 className="h-8 w-8 text-brand-cream/15" />
+            <p className="text-sm text-brand-cream/30">No companies yet. Add your first client.</p>
+            <button
+              onClick={() => navigate('/companies')}
+              className="inline-flex cursor-pointer items-center gap-1.5 rounded-lg bg-brand-green/20 px-3 py-1.5 text-xs font-medium text-brand-lime hover:bg-brand-green/30"
+            >
+              <Plus className="h-3.5 w-3.5" /> Add Company
+            </button>
+          </div>
         ) : (
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
             {stats.recentCompanies.map(company => (
