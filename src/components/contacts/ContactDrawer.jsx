@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import {
   Plus, Phone, Mail, Building2, Calendar, MessageSquare,
-  Video, Send, Loader2, ExternalLink
+  Users, Send, Loader2, ExternalLink
 } from 'lucide-react'
 import { supabase } from '../../lib/supabase'
 import { useTouchpoints } from '../../hooks/useTouchpoints'
@@ -13,15 +13,15 @@ import TouchpointForm from './TouchpointForm'
 const typeIcons = {
   call: Phone,
   email: Mail,
-  meeting: Video,
+  meeting: Users,
   text: MessageSquare,
 }
 
 const typeColors = {
   call: 'bg-blue-500/20 text-blue-400',
   email: 'bg-emerald-500/20 text-emerald-400',
-  meeting: 'bg-purple-500/20 text-purple-400',
-  text: 'bg-amber-500/20 text-amber-400',
+  meeting: 'bg-amber-500/20 text-amber-400',
+  text: 'bg-purple-500/20 text-purple-400',
 }
 
 export default function ContactDrawer({ contactId, open, onClose }) {

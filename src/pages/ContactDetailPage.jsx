@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { ArrowLeft, Plus, Phone, Mail, Building2, Calendar, MessageSquare, Video, Send, Loader2 } from 'lucide-react'
+import { ArrowLeft, Plus, Phone, Mail, Building2, Calendar, MessageSquare, Users, Send, Loader2 } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { useTouchpoints } from '../hooks/useTouchpoints'
 import Modal from '../components/ui/Modal'
@@ -10,15 +10,15 @@ import TouchpointForm from '../components/contacts/TouchpointForm'
 const typeIcons = {
   call: Phone,
   email: Mail,
-  meeting: Video,
+  meeting: Users,
   text: MessageSquare,
 }
 
 const typeColors = {
   call: 'bg-blue-500/20 text-blue-400',
   email: 'bg-emerald-500/20 text-emerald-400',
-  meeting: 'bg-purple-500/20 text-purple-400',
-  text: 'bg-amber-500/20 text-amber-400',
+  meeting: 'bg-amber-500/20 text-amber-400',
+  text: 'bg-purple-500/20 text-purple-400',
 }
 
 export default function ContactDetailPage() {
